@@ -4,12 +4,20 @@ fn array_and_vec() -> ([i32; 4], Vec<i32>) {
     // TODO: Create a vector called `v` which contains the exact same elements as in the array `a`.
     // Use the vector macro.
     // let v = ???;
+    // let v: Vec<i32> = Vec::new();
+    // v.push(a[0]);
+    // v.push(a[1]);
+    // v.push(a[2]);
+    // v.push(a[3]);
+    let v = vec![a[0], a[1], a[2], a[3]];
 
     (a, v)
 }
 
 fn main() {
     // You can optionally experiment here.
+    let (a, v) = array_and_vec();
+    println!("array: {a:?}, vector: {v:?}");
 }
 
 #[cfg(test)]
@@ -20,5 +28,11 @@ mod tests {
     fn test_array_and_vec_similarity() {
         let (a, v) = array_and_vec();
         assert_eq!(a, *v);
+    }
+
+    #[test]
+    fn test_print_array_values() {
+        let (a, v) = array_and_vec();
+        println!("array: {a:?}, vector: {v:?}");
     }
 }
