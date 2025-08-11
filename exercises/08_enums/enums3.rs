@@ -1,3 +1,4 @@
+#[derive(Debug)]
 struct Point {
     x: u64,
     y: u64,
@@ -11,6 +12,7 @@ enum Message {
     Quit,
 }
 
+#[derive(Debug)]
 struct State {
     width: u64,
     height: u64,
@@ -43,6 +45,16 @@ impl State {
         self.quit = true;
     }
 
+    fn print_fields(&mut self) {
+        // println!("width: {0}, height: {1}", self.width, self.height);
+        // println!("position: {:?}", self.position);
+        // println!("message: {0}", self.message);
+        // println!("color: {0:?}", self.color);
+        // println!("quit: {0}", self.quit);
+
+        println!("{self:#?}");
+    }
+
     fn process(&mut self, message: Message) {
         // TODO: Create a match expression to process the different message
         // variants using the methods defined above.
@@ -68,6 +80,22 @@ impl State {
 
 fn main() {
     // You can optionally experiment here.
+    let mut state = State {
+        width: 0,
+        height: 0,
+        position: Point {x: 0, y: 0},
+        message: String::from("Hello enums"),
+        color: (0, 0, 0),
+        quit: false,
+    };
+
+    state.print_fields();
+    state.process(Message::Echo(state.message.to_uppercase()));
+    state.process(Message::Move(Point { x: 0, y: 2 }));
+    state.process(Message::Resize { width: 5, height: 0 });
+    state.process(Message::ChangeColor(255, 0, 100));
+    state.process(Message::Quit);
+    state.print_fields();
 }
 
 #[cfg(test)]
