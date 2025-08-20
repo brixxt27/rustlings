@@ -9,6 +9,7 @@
 use std::collections::HashMap;
 
 // A structure to store the goal details of a team.
+#[derive(Debug)]
 #[derive(Default)]
 struct TeamScores {
     goals_scored: u8,
@@ -31,6 +32,16 @@ fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
         // Keep in mind that goals scored by team 1 will be the number of goals
         // conceded by team 2. Similarly, goals scored by team 2 will be the
         // number of goals conceded by team 1.
+        // "England,France,4,2"를 통해 HashMap<&str, TeamScores> 형식으로 생성해 반환한다.
+        // (England, TeamScores(4, 2)), (France, TeamScores(2, 4))
+        // let entry1 = scores.entry(team_1_name).or_insert(TeamScores { goals_scored: 0, goals_conceded: 0 });
+        let entry1 = scores.entry(team_1_name).or_default();
+        entry1.goals_scored += team_1_score;
+        entry1.goals_conceded += team_2_score;
+        
+        let entry2 = scores.entry(team_2_name).or_default();
+        entry2.goals_scored += team_2_score;
+        entry2.goals_conceded += team_1_score;
     }
 
     scores
@@ -38,6 +49,15 @@ fn build_scores_table(results: &str) -> HashMap<&str, TeamScores> {
 
 fn main() {
     // You can optionally experiment here.
+    const RESULTS: &str = "England,France,4,2
+France,Italy,3,1
+Poland,Spain,2,0
+Germany,England,2,1
+England,Spain,1,0";
+    let table = build_scores_table(RESULTS);
+    for (key, value) in table {
+        println!("key: {key:?}, value: {value:?}");
+    }
 }
 
 #[cfg(test)]
