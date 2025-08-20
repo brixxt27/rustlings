@@ -28,16 +28,53 @@ mod my_module {
 
     // TODO: Complete the function as described above.
     // pub fn transformer(input: ???) -> ??? { ??? }
+    pub fn transformer(input: Vec<(String, Command)>) -> Vec<String> {
+        let mut vec = Vec::new();
+        let bar = "bar";
+
+        for (s, command) in input {
+            // match command {
+            //     Command::Uppercase => {
+            //         vec.push(s.to_uppercase());
+            //     },
+            //     Command::Trim => {
+            //         vec.push(s.trim().to_owned());
+            //     },
+            //     Command::Append(n) => {
+            //         // The '+' operator can concatencate a 'String' with a '&str'.
+            //         vec.push(s.clone() + &bar.repeat(n));
+            //     },
+            // }
+            let new_string = match command {
+                Command::Uppercase => s.to_uppercase(),
+                Command::Trim => s.trim().to_owned(),
+                Command::Append(n) => s + &bar.repeat(n),
+            };
+            vec.push(new_string);
+        }
+        vec
+    }
 }
 
 fn main() {
     // You can optionally experiment here.
+    let vec = my_module::transformer(vec![
+        ("baba".to_owned(), Command::Uppercase),
+        ("hello".to_string(), Command::Uppercase),
+        (" all roads lead to rome! ".to_string(), Command::Trim),
+        ("foo".to_string(), Command::Append(1)),
+        ("bar".to_string(), Command::Append(5)),
+    ]);
+    for target in vec {
+        println!("string: {target}");
+    }
 }
 
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
     // use ???;
+    use crate::my_module::transformer;
     use super::Command;
 
     #[test]
