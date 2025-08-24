@@ -4,10 +4,37 @@
 // `hour_of_day` is higher than 23.
 fn maybe_icecream(hour_of_day: u16) -> Option<u16> {
     // TODO: Complete the function body.
+    // if hour_of_day < 22 {
+    //     Some(5)
+    // } else if (22..24).contains(&hour_of_day) {
+    //     Some(0)
+    // } else {
+    //     None
+    // }
+    // 위와 같은 if 문 보다 rust에서 제공하는 match 문을 사용하면 더 간단하게, 가독성 좋게, 보다 깔끔하게 작성 할 수 있다.
+    match hour_of_day {
+        0..22 => Some(5),
+        22..24 => Some(0),
+        _ => None
+    }
 }
 
 fn main() {
     // You can optionally experiment here.
+    let count= maybe_icecream(24);
+    match count {
+        Some(n) => println!("{n:?}"),
+        None => println!("Count is None"),
+    }
+
+    if let Some(n) = count {
+        println!("{n:?}");
+    } else {
+        println!("Count is None");
+    }
+
+    let count= maybe_icecream(24).unwrap_or(0);
+    println!("Count is {count:?}")
 }
 
 #[cfg(test)]
@@ -18,7 +45,7 @@ mod tests {
     fn raw_value() {
         // TODO: Fix this test. How do you get the value contained in the
         // Option?
-        let icecreams = maybe_icecream(12);
+        let icecreams = maybe_icecream(12).unwrap();
 
         assert_eq!(icecreams, 5); // Don't change this line.
     }
